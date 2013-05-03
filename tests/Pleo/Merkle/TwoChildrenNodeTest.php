@@ -4,7 +4,7 @@ namespace Pleo\Merkle;
 use PHPUnit_Framework_TestCase;
 use StdClass;
 
-class TreeNodeTest extends PHPUnit_Framework_TestCase
+class TwoChildrenNodeTest extends PHPUnit_Framework_TestCase
 {
     private $calls;
     private $return;
@@ -20,11 +20,11 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             $this->calls[] = $ipt;
             return $this->return;
         };
-        $this->node = new TreeNode($this->callback);
+        $this->node = new TwoChildrenNode($this->callback);
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
     public function testHashWithNoDataReturnsNull()
     {
@@ -32,7 +32,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      * @dataProvider badInputs
      * @expectedException InvalidArgumentException
      */
@@ -42,7 +42,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      * @expectedException LogicException
      */
     public function testSettingAnyDataASecondTimeThrowsException()
@@ -52,7 +52,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
     public function testHashWithStringDataCallsHasherWithConcatinatedStrings()
     {
@@ -62,7 +62,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
     public function testHashWithStringDataCallsHasherOnlyOnce()
     {
@@ -75,7 +75,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      * @expectedException LogicException
      */
     public function testSettingDataAfterSuccessfulHashStillThrowsException()
@@ -86,7 +86,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
     public function testHashWillUsedCallbackReturnAfterSettingData()
     {
@@ -96,15 +96,15 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
-    public function testHashWithTreeNodesUsesConcatinationOfTheirHashesForCallback()
+    public function testHashWithTwoChildrenNodesUsesConcatinationOfTheirHashesForCallback()
     {
-        $first = new TreeNode(function () {
+        $first = new TwoChildrenNode(function () {
             return 'foo';
         });
         $first->data('', '');
-        $second = new TreeNode(function () {
+        $second = new TwoChildrenNode(function () {
             return 'bar';
         });
         $second->data('', '');
@@ -114,14 +114,14 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
-    public function testHashWillReturnNullIfFirstDecendantTreeNodesHashReturnsNull()
+    public function testHashWillReturnNullIfFirstDecendantTwoChildrenNodesHashReturnsNull()
     {
-        $first = new TreeNode(function () {
+        $first = new TwoChildrenNode(function () {
             return 'foo';
         });
-        $second = new TreeNode(function () {
+        $second = new TwoChildrenNode(function () {
             return 'bar';
         });
         $second->data('', '');
@@ -131,15 +131,15 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
-    public function testHashWillReturnNullIfSecondDecendantTreeNodesHashReturnsNull()
+    public function testHashWillReturnNullIfSecondDecendantTwoChildrenNodesHashReturnsNull()
     {
-        $first = new TreeNode(function () {
+        $first = new TwoChildrenNode(function () {
             return 'foo';
         });
         $first->data('', '');
-        $second = new TreeNode(function () {
+        $second = new TwoChildrenNode(function () {
             return 'bar';
         });
 
@@ -148,14 +148,14 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      */
-    public function testHashWillReturnNullIfBothDecendantTreeNodesHashReturnsNull()
+    public function testHashWillReturnNullIfBothDecendantTwoChildrenNodesHashReturnsNull()
     {
-        $first = new TreeNode(function () {
+        $first = new TwoChildrenNode(function () {
             return 'foo';
         });
-        $second = new TreeNode(function () {
+        $second = new TwoChildrenNode(function () {
             return 'bar';
         });
 
@@ -164,7 +164,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\TreeNode
+     * @covers Pleo\Merkle\TwoChildrenNode
      * @dataProvider badCallbackReturns
      * @expectedException UnexpectedValueException
      */
@@ -201,7 +201,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(null, array()),
             array(null, new StdClass),
             array(null, STDIN),
-            array(null, new TreeNode(function () {})),
+            array(null, new TwoChildrenNode(function () {})),
             array(false, null),
             array(false, false),
             array(false, true),
@@ -211,7 +211,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(false, array()),
             array(false, new StdClass),
             array(false, STDIN),
-            array(false, new TreeNode(function () {})),
+            array(false, new TwoChildrenNode(function () {})),
             array(true, null),
             array(true, false),
             array(true, true),
@@ -221,7 +221,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(true, array()),
             array(true, new StdClass),
             array(true, STDIN),
-            array(true, new TreeNode(function () {})),
+            array(true, new TwoChildrenNode(function () {})),
             array(0, null),
             array(0, false),
             array(0, true),
@@ -231,7 +231,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(0, array()),
             array(0, new StdClass),
             array(0, STDIN),
-            array(0, new TreeNode(function () {})),
+            array(0, new TwoChildrenNode(function () {})),
             array(1.1, null),
             array(1.1, false),
             array(1.1, true),
@@ -241,7 +241,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(1.1, array()),
             array(1.1, new StdClass),
             array(1.1, STDIN),
-            array(1.1, new TreeNode(function () {})),
+            array(1.1, new TwoChildrenNode(function () {})),
             array('hello', null),
             array('hello', false),
             array('hello', true),
@@ -250,7 +250,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array('hello', array()),
             array('hello', new StdClass),
             array('hello', STDIN),
-            array('hello', new TreeNode(function () {})),
+            array('hello', new TwoChildrenNode(function () {})),
             array(array(), null),
             array(array(), false),
             array(array(), true),
@@ -260,7 +260,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(array(), array()),
             array(array(), new StdClass),
             array(array(), STDIN),
-            array(array(), new TreeNode(function () {})),
+            array(array(), new TwoChildrenNode(function () {})),
             array(new StdClass, null),
             array(new StdClass, false),
             array(new StdClass, true),
@@ -270,7 +270,7 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(new StdClass, array()),
             array(new StdClass, new StdClass),
             array(new StdClass, STDIN),
-            array(new StdClass, new TreeNode(function () {})),
+            array(new StdClass, new TwoChildrenNode(function () {})),
             array(STDIN, null),
             array(STDIN, false),
             array(STDIN, true),
@@ -280,16 +280,16 @@ class TreeNodeTest extends PHPUnit_Framework_TestCase
             array(STDIN, array()),
             array(STDIN, new StdClass),
             array(STDIN, STDIN),
-            array(STDIN, new TreeNode(function () {})),
-            array(new TreeNode(function () {}), null),
-            array(new TreeNode(function () {}), false),
-            array(new TreeNode(function () {}), true),
-            array(new TreeNode(function () {}), 0),
-            array(new TreeNode(function () {}), 1.1),
-            array(new TreeNode(function () {}), 'hello'),
-            array(new TreeNode(function () {}), array()),
-            array(new TreeNode(function () {}), new StdClass),
-            array(new TreeNode(function () {}), STDIN),
+            array(STDIN, new TwoChildrenNode(function () {})),
+            array(new TwoChildrenNode(function () {}), null),
+            array(new TwoChildrenNode(function () {}), false),
+            array(new TwoChildrenNode(function () {}), true),
+            array(new TwoChildrenNode(function () {}), 0),
+            array(new TwoChildrenNode(function () {}), 1.1),
+            array(new TwoChildrenNode(function () {}), 'hello'),
+            array(new TwoChildrenNode(function () {}), array()),
+            array(new TwoChildrenNode(function () {}), new StdClass),
+            array(new TwoChildrenNode(function () {}), STDIN),
         );
     }
 }

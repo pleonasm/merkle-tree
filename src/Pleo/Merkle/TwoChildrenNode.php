@@ -5,9 +5,9 @@ use InvalidArgumentException;
 use LogicException;
 use UnexpectedValueException;
 
-class TreeNode
+class TwoChildrenNode implements ITreeNode
 {
-    const ERR_SETTYPE = '->data() can only be passed two strings or two instances of TreeNode';
+    const ERR_SETTYPE = '->data() can only be passed two strings or two instances of TwoChildrenNode';
 
     /**
      * @var callable|null
@@ -15,12 +15,12 @@ class TreeNode
     private $hasher;
 
     /**
-     * @var string|TreeNode|null|boolean
+     * @var string|ITreeNode|null|boolean
      */
     private $first;
 
     /**
-     * @var string|TreeNode|null|boolean
+     * @var string|ITreeNode|null|boolean
      */
     private $second;
 
@@ -52,7 +52,7 @@ class TreeNode
 
         $first = &$this->first;
         $second = &$this->second;
-        if ($this->first instanceof TreeNode) {
+        if ($this->first instanceof ITreeNode) {
             $first = $this->first->hash();
             $second = $this->second->hash();
             if ($first === null || $second === null) {
@@ -62,6 +62,10 @@ class TreeNode
 
         $hash = call_user_func($this->hasher, $first . $second);
 
+        if (!is_string($hash)) {
+            throw new UnexpectedValueException('Hash callback must return a string.');
+        }
+
         $this->hash = $hash;
         $this->first = false;
         $this->second = false;
@@ -69,8 +73,8 @@ class TreeNode
    }
 
     /**
-     * @param string|TreeNode $first
-     * @param string|TreeNode $second
+     * @param string|ITreeNode $first
+     * @param string|ITreeNode $second
      * @throws LogicException
      * @throws InvalidArgumentException
      * @return null
@@ -83,7 +87,7 @@ class TreeNode
 
         if (
             is_string($first) && is_string($second) ||
-            $first instanceof TreeNode && $second instanceof TreeNode
+            $first instanceof TwoChildrenNode && $second instanceof TwoChildrenNode
         ) {
             $this->first = $first;
             $this->second = $second;
