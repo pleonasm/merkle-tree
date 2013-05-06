@@ -50,8 +50,8 @@ class TwoChildrenNode implements ITreeNode
             return null;
         }
 
-        $first = &$this->first;
-        $second = &$this->second;
+        $first = $this->first;
+        $second = $this->second;
         if ($this->first instanceof ITreeNode) {
             $first = $this->first->hash();
             $second = $this->second->hash();
@@ -87,7 +87,7 @@ class TwoChildrenNode implements ITreeNode
 
         if (
             is_string($first) && is_string($second) ||
-            $first instanceof TwoChildrenNode && $second instanceof TwoChildrenNode
+            $first instanceof ITreeNode && $second instanceof ITreeNode
         ) {
             $this->first = $first;
             $this->second = $second;
