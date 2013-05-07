@@ -70,7 +70,7 @@ class TwoChildrenNode implements ITreeNode
         $this->first = false;
         $this->second = false;
         return $this->hash;
-   }
+    }
 
     /**
      * @param string|ITreeNode $first
@@ -85,10 +85,7 @@ class TwoChildrenNode implements ITreeNode
             throw new LogicException('You cannot set data twice');
         }
 
-        if (
-            is_string($first) && is_string($second) ||
-            $first instanceof ITreeNode && $second instanceof ITreeNode
-        ) {
+        if (is_string($first) && is_string($second) || $first instanceof ITreeNode && $second instanceof ITreeNode) {
             $this->first = $first;
             $this->second = $second;
             return;
