@@ -1,5 +1,7 @@
 # Merkle Tree Implementation #
 
+[![Build Status](https://travis-ci.org/pleonasm/merkle-tree.png?branch=master)](https://travis-ci.org/pleonasm/merkle-tree)
+
 This is an implementation of a hash tree or [Merkle Tree](http://en.wikipedia.org/wiki/Merkle_Tree)
 for PHP. 
 
