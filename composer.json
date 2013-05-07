@@ -1,7 +1,7 @@
 {
     "name": "pleonasm/merkle-tree",
     "description": "An implementation of a Merkle Tree in PHP",
-    "license": "BSD-3-Clause",
+    "license": "BSD-2-Clause",
     "authors": [
         {
             "name": "Matt Nagi",
