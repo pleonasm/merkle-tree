@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "bd5fdd2850889d7678b1956fcb7674b6",
+    "hash": "42bceba66dab07c18a74bbe2906cf351",
     "packages": [
 
     ],
@@ -542,20 +542,19 @@
         },
         {
             "name": "satooshi/php-coveralls",
-            "version": "v0.6.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/satooshi/php-coveralls.git",
-                "reference": "v0.6.1"
+                "reference": "759844dfe49883dc23088740cb2a0f422f0ee464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/satooshi/php-coveralls/zipball/v0.6.1",
-                "reference": "v0.6.1",
+                "url": "https://api.github.com/repos/satooshi/php-coveralls/zipball/759844dfe49883dc23088740cb2a0f422f0ee464",
+                "reference": "759844dfe49883dc23088740cb2a0f422f0ee464",
                 "shasum": ""
             },
             "require": {
-                "ext-curl": "*",
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "guzzle/guzzle": ">=3.0",
@@ -583,8 +582,8 @@
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "Contrib\\Component": "src/",
-                    "Contrib\\Bundle": "src/"
+                    "Satooshi\\Component": "src/",
+                    "Satooshi\\Bundle": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -606,7 +605,7 @@
                 "github",
                 "test"
             ],
-            "time": "2013-05-04 08:07:33"
+            "time": "2013-05-11 10:09:53"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -922,9 +921,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "satooshi/php-coveralls": 20
+    },
     "platform": {
         "php": ">=5.4.0"
     },
