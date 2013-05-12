@@ -15,7 +15,8 @@
         "ext-xdebug": ">=2.2.0",
         "phpunit/phpunit": "*",
         "phpunit/php-invoker": ">=1.0.0,<1.2.0",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "satooshi/php-coveralls": "*"
     },
     "autoload": {
         "psr-0": { "Pleo": "src/" }
