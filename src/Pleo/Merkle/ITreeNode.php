@@ -3,6 +3,9 @@ namespace Pleo\Merkle;
 
 /**
  * A node in a Merkle Tree
+ *
+ * In general, a node will have references to its children. It will genreally
+ * not have references to its parents.
  */
 interface ITreeNode
 {

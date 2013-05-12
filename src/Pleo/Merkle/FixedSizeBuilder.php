@@ -17,13 +17,54 @@ namespace Pleo\Merkle;
  */
 class FixedSizeBuilder
 {
+    /**
+     * @string[]
+     */
     private $chunks;
+
+    /**
+     * @var int
+     */
     private $width;
+
+    /**
+     * @var callable
+     */
     private $hasher;
+
+    /**
+     * @var ITreeNode[]
+     */
     private $htree;
+
+    /**
+     * @var ITreeNode
+     */
     private $treeRoot;
+
+    /**
+     * @var callable|null
+     */
     private $finished;
 
+    /**
+     * Returns a tree of ITreeNode objects of width $width
+     *
+     * @param int $width
+     * @param callable $hasher
+     * @todo This must be cleaned up, it is pretty terrible as it stands.
+     * @return ITreeNode[]
+     * The return is an array of ITreeNode nodes that represent all of the base
+     * of the tree in order. Additionally, the 0 index on the array will be the
+     * TOP of the tree generated. Having both the base nodes and the top node
+     * is all you need for operating on a fixed tree.
+     *
+     * For example, if you were to build a tree of size 8, you this would
+     * return an array of 5 ITreeNodes. The 0 index being the top of this tree
+     * (that you should be calling ->hash() on) and the next 4 indicies being
+     * instances of TwoChildrenNode objects (each which has the ability to
+     * accept two strings as data).
+     */
     private static function buildHtreeRow($width, callable $hasher)
     {
         $row = [];
@@ -74,6 +115,11 @@ class FixedSizeBuilder
         return $row;
     }
 
+    /**
+     * @param int $width
+     * @param callable $hasher
+     * @param callable|null $finished
+     */
     public function __construct($width, callable $hasher, callable $finished = null)
     {
         $this->width = $width;
@@ -88,11 +134,19 @@ class FixedSizeBuilder
         }
     }
 
+    /**
+     * @throws UnexpectedValueException
+     * @return string|null
+     */
     public function hash()
     {
         return $this->treeRoot->hash();
     }
 
+    /**
+     * @param int $i
+     * @param string $v
+     */
     public function set($i, $v)
     {
         $this->chunks[$i] = $v;
