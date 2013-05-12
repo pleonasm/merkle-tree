@@ -18,6 +18,7 @@
         "squizlabs/php_codesniffer": "*",
         "satooshi/php-coveralls": "*"
     },
+    "prefer-dist": true,
     "autoload": {
         "psr-0": { "Pleo": "src/" }
     }
