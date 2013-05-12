@@ -5,22 +5,26 @@ use PHPUnit_Framework_TestCase;
 
 class FixedSizeBuilderTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var callable
+     */
+    private $hasher;
+
     public function setUp()
     {
+        $this->hasher = function ($data) {
+            $result = md5($data);
+            return $result;
+        };
     }
 
     /**
      * @covers Pleo\Merkle\FixedSizeBuilder
      */
-    public function testWidthOfTwoConstructsCorrectly()
+    public function testWidthOfTwoHashesCorrectly()
     {
         $expected = 'ae802c1f58f394d46485b7da18c56e9b';
-        $hasher = function ($data) {
-            $result = md5($data);
-            return $result;
-        };
-
-        $builder = new FixedSizeBuilder(2, $hasher);
+        $builder = new FixedSizeBuilder(2, $this->hasher);
         $builder->set(0, 'hello');
         $builder->set(1, 'world');
         $actual = $builder->hash();
@@ -34,12 +38,7 @@ class FixedSizeBuilderTest extends PHPUnit_Framework_TestCase
     public function testWidthOfThreeConstructsCorrectly()
     {
         $expected = '080e5d16555fed82b0e0429f48f69697';
-        $hasher = function ($data) {
-            $result = md5($data);
-            return $result;
-        };
-
-        $builder = new FixedSizeBuilder(3, $hasher);
+        $builder = new FixedSizeBuilder(3, $this->hasher);
         $builder->set(0, 'Children');
         $builder->set(1, 'of');
         $builder->set(2, 'Dune');
@@ -54,12 +53,7 @@ class FixedSizeBuilderTest extends PHPUnit_Framework_TestCase
     public function testWidthOfFourConstructsCorrectly()
     {
         $expected = '61f7715d5dde1f2406fc1074b9279642';
-        $hasher = function ($data) {
-            $result = md5($data);
-            return $result;
-        };
-
-        $builder = new FixedSizeBuilder(4, $hasher);
+        $builder = new FixedSizeBuilder(4, $this->hasher);
         $builder->set(0, 'the');
         $builder->set(1, 'quick');
         $builder->set(2, 'brown');
@@ -75,12 +69,7 @@ class FixedSizeBuilderTest extends PHPUnit_Framework_TestCase
     public function testWidthOfFiveConstructsCorrectly()
     {
         $expected = '1a3c2d140c8d974bf5a64e35431eae80';
-        $hasher = function ($data) {
-            $result = md5($data);
-            return $result;
-        };
-
-        $builder = new FixedSizeBuilder(5, $hasher);
+        $builder = new FixedSizeBuilder(5, $this->hasher);
         $builder->set(0, 'short');
         $builder->set(1, 'end');
         $builder->set(2, 'of');
@@ -97,12 +86,7 @@ class FixedSizeBuilderTest extends PHPUnit_Framework_TestCase
     public function testWidthOfSixConstructsCorrectly()
     {
         $expected = '1c532ad0b8d7a2af86c321f14f722416';
-        $hasher = function ($data) {
-            $result = md5($data);
-            return $result;
-        };
-
-        $builder = new FixedSizeBuilder(6, $hasher);
+        $builder = new FixedSizeBuilder(6, $this->hasher);
         $builder->set(0, 'at');
         $builder->set(1, 'the');
         $builder->set(2, 'end');
