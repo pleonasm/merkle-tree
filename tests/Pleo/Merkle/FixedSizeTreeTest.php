@@ -2,6 +2,7 @@
 namespace Pleo\Merkle;
 
 use PHPUnit_Framework_TestCase;
+use StdClass;
 
 class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
 {
@@ -96,5 +97,75 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $actual = $builder->hash();
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @covers Pleo\Merkle\FixedSizeTree
+     * @expectedException RangeException
+     */
+    public function testSettingDataWithIndexLessThanZero()
+    {
+        $builder = new FixedSizeTree(8, $this->hasher);
+        $builder->set(-1, 'asdf');
+    }
+
+    /**
+     * @covers Pleo\Merkle\FixedSizeTree
+     * @expectedException RangeException
+     */
+    public function testSettingDataWithIndexGreaterThanTreeWidth()
+    {
+        $builder = new FixedSizeTree(8, $this->hasher);
+        $builder->set(8, 'asdf');
+    }
+
+    /**
+     * @covers Pleo\Merkle\FixedSizeTree
+     * @expectedException InvalidArgumentException
+     * @dataProvider badIndicies
+     */
+    public function testSettingDataWithBadIndicies($index)
+    {
+        $builder = new FixedSizeTree(8, $this->hasher);
+        $builder->set($index, 'asdf');
+    }
+
+    /**
+     * @covers Pleo\Merkle\FixedSizeTree
+     * @expectedException InvalidArgumentException
+     * @dataProvider badValues
+     */
+    public function testSettingDataWithBadValues($value)
+    {
+        $builder = new FixedSizeTree(8, $this->hasher);
+        $builder->set(0, $value);
+    }
+
+    public function badIndicies()
+    {
+        return array(
+            array(null),
+            array(false),
+            array(true),
+            array(1.1),
+            array('one'),
+            array(array()),
+            array(new StdClass),
+            array(STDIN),
+        );
+    }
+
+    public function badValues()
+    {
+        return array(
+            array(null),
+            array(false),
+            array(true),
+            array(1),
+            array(1.1),
+            array(array()),
+            array(new StdClass),
+            array(STDIN),
+        );
     }
 }

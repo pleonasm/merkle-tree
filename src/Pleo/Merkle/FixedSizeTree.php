@@ -1,6 +1,9 @@
 <?php
 namespace Pleo\Merkle;
 
+use RangeException;
+use InvalidArgumentException;
+
 /**
  * Builds a merkle tree of a given width
  *
@@ -146,9 +149,22 @@ class FixedSizeTree implements ITreeNode
     /**
      * @param int $i
      * @param string $v
+     * @throws InvalidArgumentException
+     * @throws RangeException
+     * @return null
      */
     public function set($i, $v)
     {
+        if (!is_int($i)) {
+            throw new InvalidArgumentException('index must be an integer');
+        }
+        if (!is_string($v)) {
+            throw new InvalidArgumentException('value must be a string');
+        }
+        if ($i < 0 || $i >= $this->width) {
+            throw new RangeException("$i must be between 0 and the tree width (minus one)");
+        }
+
         $this->chunks[$i] = $v;
         $odd = $i % 2;
         if ($odd) {
