@@ -15,7 +15,7 @@ namespace Pleo\Merkle;
  * be hashed will be hashed as soon as possible and references to the
  * underlying nodes broken.
  */
-class FixedSizeBuilder
+class FixedSizeTree
 {
     /**
      * @string[]

@@ -26,7 +26,7 @@ Then run `composer install`.
 
 ```php
 <?php
-use Pleo\Merkle\FixedSizeBuilder;
+use Pleo\Merkle\FixedSizeTree;
 
 require 'vendor/autoload.php';
 
@@ -34,7 +34,7 @@ $hasher = function ($data) {
     return md5($data, true);
 };
 
-$tree = new FixedSizeBuilder(16, $hasher);
+$tree = new FixedSizeTree(16, $hasher);
 
 $tree->set(0, 'Science');
 $tree->set(1, 'is');
