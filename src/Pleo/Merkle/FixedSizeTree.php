@@ -1,8 +1,9 @@
 <?php
 namespace Pleo\Merkle;
 
-use RangeException;
 use InvalidArgumentException;
+use OutOfBoundsException;
+use RangeException;
 
 /**
  * Builds a merkle tree of a given width
@@ -150,21 +151,13 @@ class FixedSizeTree implements ITreeNode
      * @param int $i
      * @param string $v
      * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      * @throws RangeException
      * @return null
      */
     public function set($i, $v)
     {
-        if (!is_int($i)) {
-            throw new InvalidArgumentException('index must be an integer');
-        }
-        if (!is_string($v)) {
-            throw new InvalidArgumentException('value must be a string');
-        }
-        if ($i < 0 || $i >= $this->width) {
-            throw new RangeException("$i must be between 0 and the tree width (minus one)");
-        }
-
+        $this->validateSetInputs($i, $v);
         $this->chunks[$i] = $v;
         $odd = $i % 2;
         if ($odd) {
@@ -188,6 +181,25 @@ class FixedSizeTree implements ITreeNode
             $this->resolveHashes();
             unset($this->chunks[$i]);
             unset($this->chunks[$i + 1]);
+        }
+    }
+
+    /**
+     * @param int $i
+     * @param string $v
+     */
+    private function validateSetInputs($i, $v)
+    {
+        if (!is_int($i)) {
+            throw new InvalidArgumentException('index must be an integer');
+        }
+
+        if (!is_string($v)) {
+            throw new InvalidArgumentException('value must be a string');
+        }
+
+        if ($i < 0 || $i >= $this->width) {
+            throw new RangeException("$i must be between 0 and the tree width (minus one)");
         }
     }
 

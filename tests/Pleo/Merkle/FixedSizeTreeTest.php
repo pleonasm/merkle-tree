@@ -170,6 +170,17 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($resultHash);
     }
 
+    /**
+     * @covers Pleo\Merkle\FixedSizeTree
+     * @expectedException OutOfBoundsException
+     */
+    public function testSettingAChunkTwiceThrowsException()
+    {
+        $tree = new FixedSizeTree(8, $this->hasher);
+        $tree->set(0, 'asdf');
+        $tree->set(0, 'asdf');
+    }
+
     public function badIndicies()
     {
         return array(
