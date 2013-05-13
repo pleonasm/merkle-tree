@@ -141,6 +141,35 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $builder->set(0, $value);
     }
 
+    /**
+     * @covers Pleo\Merkle\FixedSizeTree
+     */
+    public function testHashCompleteCallbackTriggeredAsSoonAsEntireTreeResolved()
+    {
+        $numCalls = 0;
+        $resultHash = null;
+        $finished = function ($hash) use (&$numCalls, &$resultHash) {
+            $numCalls++;
+            $resultHash = $hash;
+        };
+        $tree = new FixedSizeTree(6, $this->hasher, $finished);
+
+        $tree->set(5, 'asdf');
+        $this->assertSame(0, $numCalls, "finished callback called prematurely");
+        $tree->set(3, 'asdf');
+        $this->assertSame(0, $numCalls, "finished callback called prematurely");
+        $tree->set(2, 'asdf');
+        $this->assertSame(0, $numCalls, "finished callback called prematurely");
+        $tree->set(0, 'asdf');
+        $this->assertSame(0, $numCalls, "finished callback called prematurely");
+        $tree->set(1, 'asdf');
+        $this->assertSame(0, $numCalls, "finished callback called prematurely");
+        $tree->set(4, 'asdf');
+        $this->assertSame(1, $numCalls, "finished callback not called as expected");
+
+        $this->assertNotNull($resultHash);
+    }
+
     public function badIndicies()
     {
         return array(

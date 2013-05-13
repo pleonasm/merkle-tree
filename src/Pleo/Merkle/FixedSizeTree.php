@@ -175,7 +175,7 @@ class FixedSizeTree implements ITreeNode
             $data = call_user_func($this->hasher, $this->chunks[$i]);
             $idx = (int) ($i / 2);
             $this->htree[$idx]->data($data);
-            $this->treeRoot->hash();
+            $this->resolveHashes();
             unset($this->chunks[$i]);
             return;
         }
@@ -185,9 +185,24 @@ class FixedSizeTree implements ITreeNode
             $second = call_user_func($this->hasher, $this->chunks[$i + 1]);
             $idx = (int) ($i / 2);
             $this->htree[$idx]->data($first, $second);
-            $this->treeRoot->hash();
+            $this->resolveHashes();
             unset($this->chunks[$i]);
             unset($this->chunks[$i + 1]);
+        }
+    }
+
+    /**
+     * @return null
+     */
+    private function resolveHashes()
+    {
+        $res = $this->treeRoot->hash();
+        if (is_null($res)) {
+            return;
+        }
+
+        if ($this->finished) {
+            call_user_func($this->finished, $res);
         }
     }
 }
