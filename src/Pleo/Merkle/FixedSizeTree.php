@@ -158,7 +158,7 @@ class FixedSizeTree implements ITreeNode
     public function set($i, $v)
     {
         $this->validateSetInputs($i, $v);
-        $this->chunks[$i] = $v;
+        $this->addChunk($i, $v);
         $odd = $i % 2;
         if ($odd) {
             $i--;
@@ -182,6 +182,20 @@ class FixedSizeTree implements ITreeNode
             unset($this->chunks[$i]);
             unset($this->chunks[$i + 1]);
         }
+    }
+
+    /**
+     * @param int $i
+     * @param string $v
+     * @throws OutOfBoundsException
+     * @return null
+     */
+    private function addChunk($i, $v)
+    {
+        if (!array_key_exists($i, $this->chunks) || !is_null($this->chunks[$i])) {
+            throw new OutOfBoundsException('Cannot call ->set() for the same index more than once');
+        }
+        $this->chunks[$i] = $v;
     }
 
     /**
