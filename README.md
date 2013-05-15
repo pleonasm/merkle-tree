@@ -22,7 +22,14 @@ Put the following in your package.json:
 
 Then run `composer install`.
 
-## Usage ##
+## Usage For A Fixed Size Tree ##
+
+Usage of a hash tree requires a user to provide a hashing function that each
+node will use to do its hashing. This function must accept a single string
+argument and must always return a string. It should never throw an exception.
+
+If desired, you can also provide a callback for when the entire hash tree has
+been actually finished, rather than checking for it each time yourself.
 
 ```php
 <?php
@@ -30,11 +37,16 @@ use Pleo\Merkle\FixedSizeTree;
 
 require 'vendor/autoload.php';
 
+// basically the same thing bitcoin merkle tree hashing does
 $hasher = function ($data) {
-    return md5($data, true);
+    return hash('sha256', hash('sha256', $data, true), true);
 };
 
-$tree = new FixedSizeTree(16, $hasher);
+$finished = function ($hash) {
+    echo implode('', unpack('H*', $hash)) . "\n";
+};
+
+$tree = new FixedSizeTree(16, $hasher, $finished);
 
 $tree->set(0, 'Science');
 $tree->set(1, 'is');
@@ -51,13 +63,11 @@ $tree->set(11, 'after');
 $tree->set(12, 'they');
 $tree->set(13, 'are');
 $tree->set(14, 'explained');
-$tree->set(15, '.');
-
-$hash = implode('', unpack('H*', $tree->hash()));
-echo $hash . "\n"; // ac264d7c8de67a27345e752e5a56c66b
+$tree->set(15, '.'); // this will echo the string 'c689102cdf2a5b30c2e21fdad85e4bb401085227aff672a7240ceb3410ff1fb6'
 ```
 
-## Note ##
+The FixedSizeTree implements a Merkle Tree the [same way bitcoins do](https://en.bitcoin.it/wiki/Protocol_specification#Merkle_Trees).
+There are [other ways](http://web.archive.org/web/20080316033726/http://www.open-content.net/specs/draft-jchapweske-thex-02.html)
+to actually deal with a tree whose width is not a perfect square.
 
-The class names are not really good and will probably change before they are
-considered done.
+If there is a need for the other method, I would not be opposed to adding it.
