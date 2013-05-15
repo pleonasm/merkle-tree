@@ -68,6 +68,6 @@ $tree->set(15, '.'); // this will echo the string 'c689102cdf2a5b30c2e21fdad85e4
 
 The FixedSizeTree implements a Merkle Tree the [same way bitcoins do](https://en.bitcoin.it/wiki/Protocol_specification#Merkle_Trees).
 There are [other ways](http://web.archive.org/web/20080316033726/http://www.open-content.net/specs/draft-jchapweske-thex-02.html)
-to actually deal with a tree whose width is not a perfect square.
+to actually deal with a tree width that is not a perfect square.
 
 If there is a need for the other method, I would not be opposed to adding it.
