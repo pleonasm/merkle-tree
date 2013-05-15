@@ -13,12 +13,11 @@
     },
     "require-dev": {
         "ext-xdebug": ">=2.2.0",
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": "3.7.19",
         "phpunit/php-invoker": ">=1.0.0,<1.2.0",
         "squizlabs/php_codesniffer": "*",
         "satooshi/php-coveralls": "*@dev"
     },
-    "prefer-dist": true,
     "autoload": {
         "psr-0": { "Pleo": "src/" }
     }
