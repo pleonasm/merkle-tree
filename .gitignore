@@ -1,4 +1,5 @@
 /vendor/
 /build/
 /phpunit.xml
+/.idea/
 .*.swp

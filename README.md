@@ -71,3 +71,7 @@ There are [other ways](http://web.archive.org/web/20080316033726/http://www.open
 to actually deal with a tree width that is not a perfect square.
 
 If there is a need for the other method, I would not be opposed to adding it.
+
+## License ##
+
+You can find the license for this code in the [LICENSE file](LICENSE)

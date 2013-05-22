@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright 2013 Matthew Nagi
+ * @license http://opensource.org/licenses/BSD-2-Clause BSD 2-Clause License
+ */
+
 namespace Pleo\Merkle;
 
 /**
