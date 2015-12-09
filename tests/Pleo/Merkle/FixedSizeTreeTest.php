@@ -24,9 +24,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         };
     }
 
-    /**
-     * @covers Pleo\Merkle\FixedSizeTree
-     */
     public function testWidthOfTwoHashesCorrectly()
     {
         $expected = 'ae802c1f58f394d46485b7da18c56e9b';
@@ -38,9 +35,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @covers Pleo\Merkle\FixedSizeTree
-     */
     public function testWidthOfThreeConstructsCorrectly()
     {
         $expected = '080e5d16555fed82b0e0429f48f69697';
@@ -53,9 +47,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @covers Pleo\Merkle\FixedSizeTree
-     */
     public function testWidthOfFourConstructsCorrectly()
     {
         $expected = '61f7715d5dde1f2406fc1074b9279642';
@@ -69,9 +60,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @covers Pleo\Merkle\FixedSizeTree
-     */
     public function testWidthOfFiveConstructsCorrectly()
     {
         $expected = '1a3c2d140c8d974bf5a64e35431eae80';
@@ -86,9 +74,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @covers Pleo\Merkle\FixedSizeTree
-     */
     public function testWidthOfSixConstructsCorrectly()
     {
         $expected = '1c532ad0b8d7a2af86c321f14f722416';
@@ -105,7 +90,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\FixedSizeTree
      * @expectedException RangeException
      */
     public function testSettingDataWithIndexLessThanZero()
@@ -115,7 +99,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\FixedSizeTree
      * @expectedException RangeException
      */
     public function testSettingDataWithIndexGreaterThanTreeWidth()
@@ -125,7 +108,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\FixedSizeTree
      * @expectedException InvalidArgumentException
      * @dataProvider badIndicies
      */
@@ -136,7 +118,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\FixedSizeTree
      * @expectedException InvalidArgumentException
      * @dataProvider badValues
      */
@@ -146,9 +127,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
         $builder->set(0, $value);
     }
 
-    /**
-     * @covers Pleo\Merkle\FixedSizeTree
-     */
     public function testHashCompleteCallbackTriggeredAsSoonAsEntireTreeResolved()
     {
         $numCalls = 0;
@@ -176,7 +154,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\FixedSizeTree
      * @expectedException OutOfBoundsException
      */
     public function testSettingAChunkTwiceThrowsException()
@@ -187,7 +164,6 @@ class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Pleo\Merkle\FixedSizeTree
      * @expectedException OutOfBoundsException
      */
     public function testSettingAChunkTwiceAfterResolvedThrowsException()
