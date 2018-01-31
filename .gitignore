@@ -2,4 +2,5 @@
 /build/
 /phpunit.xml
 /.idea/
+/composer.lock
 .*.swp
