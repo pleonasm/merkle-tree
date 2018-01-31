@@ -1,15 +1,15 @@
 <?php
 /**
- * @copyright 2013 Matthew Nagi
+ * @copyright 2018 Matthew Nagi
  * @license http://opensource.org/licenses/BSD-2-Clause BSD 2-Clause License
  */
 
 namespace Pleo\Merkle;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use StdClass;
 
-class FixedSizeTreeTest extends PHPUnit_Framework_TestCase
+class FixedSizeTreeTest extends TestCase
 {
     /**
      * @var callable

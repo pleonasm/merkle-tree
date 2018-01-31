@@ -1,15 +1,15 @@
 <?php
 /**
- * @copyright 2013 Matthew Nagi
+ * @copyright 2018 Matthew Nagi
  * @license http://opensource.org/licenses/BSD-2-Clause BSD 2-Clause License
  */
 
 namespace Pleo\Merkle;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use StdClass;
 
-class TwoChildrenNodeTest extends PHPUnit_Framework_TestCase
+class TwoChildrenNodeTest extends TestCase
 {
     private $calls;
     private $return;
@@ -76,7 +76,7 @@ class TwoChildrenNodeTest extends PHPUnit_Framework_TestCase
         $this->node->hash();
         $this->node->hash();
         $this->node->hash();
-        $this->assertSame(1, count($this->calls[0]));
+        $this->assertSame(1, count($this->calls));
     }
 
     /**

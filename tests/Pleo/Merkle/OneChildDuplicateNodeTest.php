@@ -1,14 +1,14 @@
 <?php
 /**
- * @copyright 2013 Matthew Nagi
+ * @copyright 2018 Matthew Nagi
  * @license http://opensource.org/licenses/BSD-2-Clause BSD 2-Clause License
  */
 
 namespace Pleo\Merkle;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class OneChildDuplicateNodeTest extends PHPUnit_Framework_TestCase
+class OneChildDuplicateNodeTest extends TestCase
 {
     private $tcn;
     private $node;
