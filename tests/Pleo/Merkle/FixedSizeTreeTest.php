@@ -6,8 +6,9 @@
 
 namespace Pleo\Merkle;
 
-use PHPUnit\Framework\TestCase;
-use StdClass;
+use LegacyPHPUnit\TestCase;
+use RangeException;
+use RuntimeException;
 
 class FixedSizeTreeTest extends TestCase
 {
@@ -16,7 +17,7 @@ class FixedSizeTreeTest extends TestCase
      */
     private $hasher;
 
-    public function setUp()
+    public function legacySetUp()
     {
         $this->hasher = function ($data) {
             $result = md5($data);
@@ -89,42 +90,18 @@ class FixedSizeTreeTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @expectedException RangeException
-     */
     public function testSettingDataWithIndexLessThanZero()
     {
+        $this->expectException(RangeException::class);
         $builder = new FixedSizeTree(8, $this->hasher);
         $builder->set(-1, 'asdf');
     }
 
-    /**
-     * @expectedException RangeException
-     */
     public function testSettingDataWithIndexGreaterThanTreeWidth()
     {
+        $this->expectException(RangeException::class);
         $builder = new FixedSizeTree(8, $this->hasher);
         $builder->set(8, 'asdf');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @dataProvider badIndicies
-     */
-    public function testSettingDataWithBadIndicies($index)
-    {
-        $builder = new FixedSizeTree(8, $this->hasher);
-        $builder->set($index, 'asdf');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @dataProvider badValues
-     */
-    public function testSettingDataWithBadValues($value)
-    {
-        $builder = new FixedSizeTree(8, $this->hasher);
-        $builder->set(0, $value);
     }
 
     public function testHashCompleteCallbackTriggeredAsSoonAsEntireTreeResolved()
@@ -153,52 +130,20 @@ class FixedSizeTreeTest extends TestCase
         $this->assertNotNull($resultHash);
     }
 
-    /**
-     * @expectedException OutOfBoundsException
-     */
     public function testSettingAChunkTwiceThrowsException()
     {
+        $this->expectException(RuntimeException::class);
         $tree = new FixedSizeTree(8, $this->hasher);
         $tree->set(0, 'asdf');
         $tree->set(0, 'asdf');
     }
 
-    /**
-     * @expectedException OutOfBoundsException
-     */
     public function testSettingAChunkTwiceAfterResolvedThrowsException()
     {
+        $this->expectException(RuntimeException::class);
         $tree = new FixedSizeTree(8, $this->hasher);
         $tree->set(0, 'asdf');
         $tree->set(1, 'asdf');
         $tree->set(0, 'asdf');
-    }
-
-    public function badIndicies()
-    {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(1.1),
-            array('one'),
-            array(array()),
-            array(new StdClass),
-            array(STDIN),
-        );
-    }
-
-    public function badValues()
-    {
-        return array(
-            array(null),
-            array(false),
-            array(true),
-            array(1),
-            array(1.1),
-            array(array()),
-            array(new StdClass),
-            array(STDIN),
-        );
     }
 }
