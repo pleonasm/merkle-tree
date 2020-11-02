@@ -25,6 +25,9 @@ class FixedSizeTreeTest extends TestCase
         };
     }
 
+    /**
+     * @covers \Pleo\Merkle\FixedSizeTree
+     */
     public function testWidthOfTwoHashesCorrectly()
     {
         $expected = 'ae802c1f58f394d46485b7da18c56e9b';

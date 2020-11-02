@@ -1,0 +1,17 @@
+<phpunit
+  colors="true"
+  columns="120">
+  <coverage
+    includeUncoveredFiles="true"
+    processUncoveredFiles="true"
+    pathCoverage="true">
+    <include>
+      <directory>src</directory>
+    </include>
+    <report>
+      <clover outputFile="build/clover.xml" />
+      <html outputDirectory="build/html" />
+      <xml outputDirectory="build/xml" />
+    </report>
+  </coverage>
+</phpunit>

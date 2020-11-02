@@ -112,16 +112,6 @@ class GrowableBinaryTree
     }
 
     /**
-     * Returns the amount of levels of the tree.
-     *
-     * @return int
-     */
-    public function levels()
-    {
-        return count($this->grid);
-    }
-
-    /**
      * Adds a node to a given layer of the tree
      *
      * This is a recursive function. It will use at most one stack frame per the amount of levels of the tree plus one.
