@@ -17,6 +17,8 @@
     "sanmai/phpunit-legacy-adapter": "^6 || ^8"
   },
   "autoload": {
-    "psr-0": { "Pleo": "src/" }
+    "psr-4": {
+      "Pleo\\Merkle\\": "src/"
+    }
   }
 }
