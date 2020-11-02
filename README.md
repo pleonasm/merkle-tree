@@ -72,6 +72,19 @@ to actually deal with a tree width that is not a perfect square.
 
 If there is a need for the other method, I would not be opposed to adding it.
 
+## Upgrading from 1.0 ##
+
+The difference between 1.0 and 2.0 from the outside should be very minimal. If
+you're only using the public interface of FixedSizeTree minus a few error
+handling changes, then you should be good to go.
+
+The new implementation is greatly simplified and is **far** faster for large
+trees. My latest benchmark put 1.0 taking 100 seconds to fill a 10000 item tree
+while 2.0 takes 0.2 seconds.
+
+That said, it is technically a backwards incompatible change so a major version
+bump is in order.
+
 ## License ##
 
 You can find the license for this code in the [LICENSE file](LICENSE)
