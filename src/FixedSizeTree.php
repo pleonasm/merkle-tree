@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Pleo\Merkle;
 
+use UnexpectedValueException;
+
 /**
  * Builds a merkle tree of a given width
  *
@@ -34,6 +36,10 @@ class FixedSizeTree
      */
     public function __construct(int $width, callable $hasher, callable $finished = null)
     {
+        if ($width < 1) {
+            throw new UnexpectedValueException('width cannot be less than 1');
+        }
+
         $tree = new GrowableBinaryTree($hasher);
         for ($i = 0; $i < $width; $i++) {
             $tree->addLeafNode();
@@ -45,11 +51,11 @@ class FixedSizeTree
     }
 
     /**
-     * @return string|null
+     * @return string|false
      */
     public function hash()
     {
-        return $this->tree->root()->getData();
+        return $this->tree->root();
     }
 
     /**

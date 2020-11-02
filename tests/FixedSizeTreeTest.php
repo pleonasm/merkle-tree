@@ -9,6 +9,7 @@ namespace Pleo\Merkle;
 use LegacyPHPUnit\TestCase;
 use RangeException;
 use RuntimeException;
+use UnexpectedValueException;
 
 class FixedSizeTreeTest extends TestCase
 {
@@ -148,5 +149,11 @@ class FixedSizeTreeTest extends TestCase
         $tree->set(0, 'asdf');
         $tree->set(1, 'asdf');
         $tree->set(0, 'asdf');
+    }
+
+    public function testErrorThrownIfWidthIsLessThanOne()
+    {
+        $this->expectException(UnexpectedValueException::class);
+        new FixedSizeTree(0, function () {});
     }
 }

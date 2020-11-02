@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Pleo\Merkle;
 
 use RangeException;
+use RuntimeException;
 
 /**
  * Represents a single binary tree that can 'grow' from the bottom up
@@ -91,11 +92,11 @@ class GrowableBinaryTree
      * By calling this, you *may* change which node is the tree's root node. You should always call root() after you
      * are done with all of your addLeafNode() calls otherwise you may have a reference to the wrong root node.
      *
-     * @return AutoResolvingTreeNode Returns the new leaf node created in the tree
+     * @return void
      */
     public function addLeafNode()
     {
-        return $this->addNode(0);
+        $this->addNode(0);
     }
 
     /**
@@ -104,62 +105,31 @@ class GrowableBinaryTree
      * This object returned may change any time addBaseNode() is called. In fact it's better never to call this until
      * you are finished calling addBaseNode() as many times as you want.
      *
-     * @return AutoResolvingTreeNode|null
+     * @return string|false|null
      */
     public function root()
     {
-        return $this->root;
+        $rows = count($this->grid);
+        return $this->grid[$rows - 1][0];
     }
 
-    /**
-     * Adds a node to a given layer of the tree
-     *
-     * This is a recursive function. It will use at most one stack frame per the amount of levels of the tree plus one.
-     * If you wish, you can ask for the amount of levels of the current tree by calling levels().
-     *
-     * @param int $row The "level" the new node should be placed at
-     * @param AutoResolvingTreeNode|null $new The instance (if already created) to place into the tree
-     * @return AutoResolvingTreeNode|null Returns the node instance if the $row argument is 0, otherwise returns null
-     */
-    private function addNode(int $row, AutoResolvingTreeNode $new = null)
+    private function addNode(int $row)
     {
-        $isBase = false;
-        if ($row === 0) {
-            $isBase = true;
-        }
-
-        if (!$new) {
-            $new = new AutoResolvingTreeNode;
-        }
-
-        $this->grid[$row][] = $new;
+        $this->grid[$row][] = false;
         $size = count($this->grid[$row]);
 
-        if ($size === 1)  {
-            $this->root = $this->grid[$row][$size - 1];
-            return $isBase ? $new : null;
+        if ($size === 1) {
+            return;
         }
 
         if ($size === 2) {
-            $newParent = new AutoResolvingTreeNode;
-            $newParent->setLeft($this->grid[$row][0]);
-            $newParent->setRight($this->grid[$row][1]);
-            $this->grid[$row + 1][] = $newParent;
-            $this->root = $newParent;
-            return $isBase ? $new : null;
+            $this->grid[$row + 1][] = false;
+            return;
         }
 
-        $odd = (bool) ($size % 2);
-
-        if (!$odd) {
-            $this->grid[$row][$size - 2]->getParent()->setRight($new);
-            return $isBase ? $new : null;
+        if ($size % 2 !== 0) {
+            $this->addNode($row + 1);
         }
-
-        $newParent = new AutoResolvingTreeNode;
-        $newParent->setLeft($new);
-        $this->addNode($row + 1, $newParent);
-        return $isBase ? $new : null;
     }
 
     /**
@@ -180,6 +150,10 @@ class GrowableBinaryTree
             throw new RangeException("Index must be greater than 0");
         }
 
+        if (is_string($this->grid[0][$i])) {
+            throw new RuntimeException("Cannot set the same index twice");
+        }
+
         return $this->setOnRow($i, $v, 0);
     }
 
@@ -193,9 +167,8 @@ class GrowableBinaryTree
      */
     private function setOnRow(int $i, string $v, int $row = 0)
     {
-        $rowList = $this->grid[$row];
-        $node = $rowList[$i];
-        $node->setData($v);
+        $rowList = &$this->grid[$row];
+        $rowList[$i] = $v;
 
         $size = count($rowList);
         $odd = (bool) ($size % 2);
@@ -218,11 +191,11 @@ class GrowableBinaryTree
 
         $siblingIdx = $i + ($oddIdx ? -1 : 1);
         $sibling = $rowList[$siblingIdx];
-        if (null === $sibling->getData()) {
+        if (false === $sibling) {
             return null;
         }
 
-        $parentHashData = $oddIdx ? $sibling->getData() . $v : $v . $sibling->getData();
+        $parentHashData = $oddIdx ? $sibling . $v : $v . $sibling;
         $newHash = call_user_func($this->hasher, $parentHashData);
         $parentIndex = (int) ($i / 2);
         return $this->setOnRow($parentIndex, $newHash, $row + 1);
